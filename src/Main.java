@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
 
@@ -96,10 +97,6 @@ public class Main {
       } else {
         System.out.println("Conta criada com sucesso!");
       }
-      System.out.println("Teste do Guto!");
-      System.out.println("Teste Pedro");
-        System.out.println("Teste Jefte");
     }
   }
-
 }

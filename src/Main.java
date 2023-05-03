@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class Main {
-
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
 
@@ -9,7 +8,7 @@ public class Main {
 
     String[][] usuarios = mockUsuarios();
 
-    int numConta = 3;
+    int numConta = 4;
 
     while ( true ) {
       System.out.println("----------------- BANCO MENU -----------------");
@@ -74,41 +73,72 @@ public class Main {
           System.out.println("O numero da conta criada é: " + usuarios[validaCpf][4]);
         }
       }
-<<<<<<< HEAD
-    } else {
-      System.out.println("Criando uma conta...");
-      System.out.println("Digite seu nome completo");
-      String nomeC = sc.nextLine();
-      System.out.println("Digite seu CPF:");
-      String cpf = sc.next();
-      System.out.println("Digite sua senha:");
-      String senha = sc.next();
-      System.out.println("Digite seu Email");
-      String email = sc.next();
 
+      if ( menu == 3 ) {
+        System.out.println("Depósito");
+        System.out.println("Digite a conta destino: ");
+        sc.nextLine();
+        String conta = sc.nextLine();
 
-      String[][] dadosClientes = {
-              {"12345678900", "senha123", "email@email.com", "Nome1"},
-              {"98765432100", "senha456", "email@email.com", "Nome2"},
-              {"11122233344", "senha789", "email@email.com", "Nome3"},
-      };
+        int validaConta = buscaUsuarioConta(usuarios, conta); // Busca o usuário pela conta dele
+        if (validaConta == 0) {
+          System.out.println("A conta informada não foi encontrada");
+        } else {
+          System.out.println("Conta " + validaConta +" encontrada com sucesso!");
+          System.out.println("Digite o valor a ser depositado: ");
+          float valorDeposito = sc.nextFloat();
 
-      boolean cpfJaCadastrado = false;
-      for (String[] cliente : dadosClientes) {
-        if (cliente[0].equals(cpf)) {
-          cpfJaCadastrado = true;
-          break;
+          if (valorDeposito < 0) {
+            System.out.println("Valor inválido para depósito!");
+          } else {
+            float valorNovo = Float.parseFloat(usuarios[validaConta][5]) + valorDeposito; // formata o valor da matriz, que é string, e transforma em float para poder calcular
+            usuarios[validaConta][5] = Float.toString(valorNovo); // Salva o valor somado na matriz ao mesmo tempo que formata para String novamente
+            System.out.println("O valor de: R$" + valorDeposito + " foi depositado com sucesso!");
+          }
         }
       }
 
-      if (cpfJaCadastrado) {
-        System.out.println("CPF já cadastrado. Tente novamente.");
-      } else {
-        System.out.println("Conta criada com sucesso!");
+      if ( menu == 4 ) {
+        System.out.println("Saque");
+        System.out.println("Digite a conta que deseja retirar o dinheiro: ");
+        sc.nextLine();
+        String conta = sc.nextLine();
+
+        int validaConta = buscaUsuarioConta(usuarios, conta);
+        if (validaConta == 0) {
+          System.out.println("A conta informada não foi encontrada");
+        } else {
+          System.out.println("Conta " + validaConta +" encontrada com sucesso!");
+          System.out.println("Digite a senha da conta: ");
+          String senhaDigitada = sc.nextLine();
+
+
+          if (usuarios[validaConta][3].equals(senhaDigitada)) {
+            System.out.println("Digite o valor a ser retirado: ");
+
+            float valorSaque = sc.nextFloat();
+
+            if (valorSaque < 0) {
+              System.out.println("Valor inválido para saque!");
+            } else {
+              float valorNovo = Float.parseFloat(usuarios[validaConta][5]) - valorSaque;
+
+              if (valorNovo >= 0) {
+                usuarios[validaConta][5] = Float.toString(valorNovo);
+                System.out.println("O valor de: R$" + valorSaque + " foi sacado com sucesso!");
+                System.out.println("O saldo total atual da conta é de: R$" + valorNovo);
+              } else {
+                System.out.println("O valor da conta não pode ficar negativo!");
+              }
+
+            }
+          } else {
+            System.out.println("Senha inválida!");
+          }
+        }
+
       }
-    }
-  }
-=======
+
     }
   }
 
@@ -137,6 +167,26 @@ public class Main {
 
     return 0;
   }
+
+  public static int buscaUsuarioConta(String[][] matriz, String conta) {
+    for (int i = 0; i < matriz.length; i++) {
+      if ( conta.equals(matriz[i][4]) ) {
+        return i;
+      }
+    }
+
+    return 0;
+  }
+
+//  public static int transferenciaContas(String[][] matriz, String conta) {
+//    for (int i = 0; i < matriz.length; i++) {
+//      if (conta.equals(matriz[i][5])) {
+//        return i;
+//      }
+//    }
+//
+//    return 0;
+//  }
 
   public static void listarUsuarios(String[][] matriz) {  //Lista todos usuários cadastrados e seus respectivos dados
     for (int i = 1; i < matriz.length; i++) {
@@ -180,5 +230,4 @@ public class Main {
     return usuariosTeste;
   }
 
->>>>>>> 9f557c921e5f71d8004eb9485e931425d1107a43
 }

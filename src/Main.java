@@ -170,14 +170,24 @@ public class Main {
             if (valorTransferido < 0) {
               System.out.println("Valor inválido para transferência");
             }
-              float novoValorContaDestino = Float.parseFloat(usuarios[validaContaDestino][5]) + valorTransferido;
-              float novoValorContaOrigem = Float.parseFloat(usuarios[validaContaOrigem][5]) - valorTransferido;
 
-            System.out.println(novoValorContaOrigem);
-            System.out.println(novoValorContaDestino);
+            float saldoOrigem = Float.parseFloat(usuarios[validaContaOrigem][5]); // Verifica se o saldo da conta origem é suficiente para a
+            if (saldoOrigem < valorTransferido) {                                 // transferência, se não for, então ele retorna com a mensagem!
+              System.out.println("Saldo insuficiente na conta de origem!");
+              return;
+            }
+
+            float novoValorContaDestino = Float.parseFloat(usuarios[validaContaDestino][5]) + valorTransferido;
+            float novoValorContaOrigem = Float.parseFloat(usuarios[validaContaOrigem][5]) - valorTransferido;
+
+            usuarios[validaContaOrigem][5] = Float.toString(novoValorContaOrigem);
+            usuarios[validaContaDestino][5] = Float.toString(novoValorContaDestino);
+
+            System.out.println("A transferência de R$ " + valorTransferido + " foi realizada com sucesso!");
+            System.out.println("O saldo da conta de origem é: R$ " + novoValorContaOrigem);
+            System.out.println("O saldo da conta de destino é: R$ " + novoValorContaDestino);
 
           }
-
         }
       }
 

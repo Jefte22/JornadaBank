@@ -139,6 +139,48 @@ public class Main {
 
       }
 
+      if ( menu == 5 ) {
+        System.out.println("Transferência");
+        System.out.println("Digite a conta de origem: ");
+        sc.nextLine();
+        String contaOrigem = sc.nextLine();
+
+        int validaContaOrigem = buscaUsuarioConta(usuarios, contaOrigem); // Busca o usuário pela conta de origem
+        if (validaContaOrigem == 0) {
+          System.out.println("A conta de origem informada não foi encontrada");
+        } else {
+          System.out.println("Digite a conta de destino: ");
+          String contaDestino = sc.nextLine();
+          int validaContaDestino = buscaUsuarioConta(usuarios, contaDestino); // Busca o usuário pela conta de destino
+          if (validaContaDestino == 0) {
+            System.out.println("A conta de destino informada não foi encontrada");
+          }
+
+          System.out.println("Digite a senha da conta origem: ");
+          String senhaDigitada = sc.nextLine();
+          if (!usuarios[validaContaOrigem][3].equals(senhaDigitada)) {
+            System.out.println("Senha inválida!");
+          }
+
+          int validaConta = buscaUsuarioConta(usuarios, contaOrigem);
+          if (usuarios[validaConta][3].equals(senhaDigitada)) {
+            System.out.println("Digite o valor a ser transferido: ");
+            float valorTransferido = sc.nextFloat();
+
+            if (valorTransferido < 0) {
+              System.out.println("Valor inválido para transferência");
+            }
+              float novoValorContaDestino = Float.parseFloat(usuarios[validaContaDestino][5]) + valorTransferido;
+              float novoValorContaOrigem = Float.parseFloat(usuarios[validaContaOrigem][5]) - valorTransferido;
+
+            System.out.println(novoValorContaOrigem);
+            System.out.println(novoValorContaDestino);
+
+          }
+
+        }
+      }
+
     }
   }
 

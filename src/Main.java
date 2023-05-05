@@ -4,7 +4,7 @@ public class Main {
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
 
-    int menu = 0;
+    int menu;
 
     String[][] usuarios = mockUsuarios();
 
@@ -172,25 +172,21 @@ public class Main {
             }
 
             float saldoOrigem = Float.parseFloat(usuarios[validaContaOrigem][5]); // Verifica se o saldo da conta origem é suficiente para a
-            if (saldoOrigem < valorTransferido) {                                 // transferência, se não for, então ele retorna com a mensagem!
+            if (saldoOrigem >= valorTransferido) {                                 // transferência, se não for, então ele retorna com a mensagem!
+              float novoValorContaDestino = Float.parseFloat(usuarios[validaContaDestino][5]) + valorTransferido;
+              float novoValorContaOrigem = Float.parseFloat(usuarios[validaContaOrigem][5]) - valorTransferido;
+              usuarios[validaContaOrigem][5] = Float.toString(novoValorContaOrigem);
+              usuarios[validaContaDestino][5] = Float.toString(novoValorContaDestino);
+
+              System.out.println("A transferência de R$ " + valorTransferido + " foi realizada com sucesso!");
+              System.out.println("O saldo da conta de origem é: R$ " + novoValorContaOrigem);
+              System.out.println("O saldo da conta de destino é: R$ " + novoValorContaDestino);
+            } else {
               System.out.println("Saldo insuficiente na conta de origem!");
-              return;
             }
-
-            float novoValorContaDestino = Float.parseFloat(usuarios[validaContaDestino][5]) + valorTransferido;
-            float novoValorContaOrigem = Float.parseFloat(usuarios[validaContaOrigem][5]) - valorTransferido;
-
-            usuarios[validaContaOrigem][5] = Float.toString(novoValorContaOrigem);
-            usuarios[validaContaDestino][5] = Float.toString(novoValorContaDestino);
-
-            System.out.println("A transferência de R$ " + valorTransferido + " foi realizada com sucesso!");
-            System.out.println("O saldo da conta de origem é: R$ " + novoValorContaOrigem);
-            System.out.println("O saldo da conta de destino é: R$ " + novoValorContaDestino);
-
           }
         }
       }
-
     }
   }
 
@@ -199,8 +195,7 @@ public class Main {
     String[][] novaMatriz = new String[matriz.length + 1][6];  //Cria um novo array com uma "linha" a mais
 
     for (int i = 0; i < matriz.length; i++) {
-      for (int j = 0; j < matriz[i].length; j++)
-      {
+      for (int j = 0; j < matriz[i].length; j++) {
         novaMatriz[i][j] = matriz[i][j];  //Copia os elementos do array antigo para o novo array
       }
     }
@@ -229,17 +224,6 @@ public class Main {
 
     return 0;
   }
-
-//  public static int transferenciaContas(String[][] matriz, String conta) {
-//    for (int i = 0; i < matriz.length; i++) {
-//      if (conta.equals(matriz[i][5])) {
-//        return i;
-//      }
-//    }
-//
-//    return 0;
-//  }
-
   public static void listarUsuarios(String[][] matriz) {  //Lista todos usuários cadastrados e seus respectivos dados
     for (int i = 1; i < matriz.length; i++) {
       System.out.println("---------- XX ----------");
